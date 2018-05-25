@@ -4,6 +4,25 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
+void set_byte_at_offset(m128 & in, u32 offset, u8 content) {
+    union {
+        m128 sse;
+        u8 bytes[16];
+    } u;
+    u.sse = in;
+    u.bytes[offset] = content;
+    in = u.sse;
+}
+
+u8 get_byte_at_offset(m128 in, u32 offset) {
+    union {
+        m128 sse;
+        u8 bytes[16];
+    } u;
+    u.sse = in;
+    return u.bytes[offset];
+}
+
 struct Sheng {
     typedef m128 State;
     m128 transitions[256];
@@ -19,13 +38,7 @@ struct Sheng {
             u32 from, to;
             u8 c;
             std::tie(from, to, c) = p;
-            union {
-                m128 sse;
-                u8 bytes[16];
-            } u;
-            u.sse = transitions[c];
-            u.bytes[from] = to;
-            transitions[c] = u.sse;
+            set_byte_at_offset(transitions[c], from, to);
         }
         start_state =  _mm_set1_epi8(start_state_); // put everyone into start state - why not?
     }
