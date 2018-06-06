@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include "sheng.h"
+#include "basicdfa.h"
 #include <chrono>
 
 const int BLOCK_SIZE = 16384;

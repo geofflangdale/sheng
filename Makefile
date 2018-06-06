@@ -14,7 +14,7 @@ EXECUTABLES=sheng
 
 all: $(EXECUTABLES)
 
-sheng: main.cpp sheng.h common_defs.h
+sheng: main.cpp sheng.h common_defs.h basicdfa.h
 	$(CXX) $(CXXFLAGS) -o sheng main.cpp
 
 
